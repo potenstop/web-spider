@@ -1,0 +1,33 @@
+{
+  "appenders": [{
+      "name": "CONSOLE",
+      "class": "ConsoleAppender",
+      "layout": {
+        "class": "PatternLayout",
+        "pattern": "%date{yyyy-MM-dd HH:mm:ss.S} [%level] [%class.%method] %line %row - %msg%n"
+      }
+    }, {
+      "name": "APPLICATION",
+      "class": "RollingFileAppender",
+      "layout": {
+        "class": "JsonLayout",
+        "pattern": "createTime:%date{yyyy-MM-dd HH:mm:ss.S}, level:%level,className:%class,methodName:%method,line:%line,row:%row,message:%msg,file:%file,error:%error"
+      },
+      "appenderExt": {
+        "fileNamePattern" : "@logs/application/application-%date{yyyy-MM-dd}",
+        "maxFileSize": "200MB"
+      }
+    }
+  ],
+  "loggers": [
+    {"name": "papio.*", "level": "TRACE", "additivity": false, "appenderRefs":  [{"ref": "APPLICATION"}, {"ref": "CONSOLE"}]},
+    {"name": "papio-common.*", "level": "TRACE", "additivity": false, "appenderRefs":  [{"ref": "APPLICATION"}, {"ref": "CONSOLE"}]},
+    {"name": "web-spider.*", "level": "TRACE", "additivity": false, "appenderRefs":  [{"ref": "APPLICATION"}, {"ref": "CONSOLE"}]}
+  ],
+  "root": {
+    "level": "TRACE",
+    "appenderRefs": [{
+      "ref": "CONSOLE"
+    }]
+  }
+}
