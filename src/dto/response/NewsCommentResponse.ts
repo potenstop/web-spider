@@ -1,4 +1,5 @@
 import {JsonProperty} from "papio-common";
+import {MemberResponse} from "./MemberResponse";
 
 /**
  *
@@ -11,10 +12,7 @@ import {JsonProperty} from "papio-common";
  */
 export class NewsCommentResponse {
     @JsonProperty
-    private memberId: string;
-
-    @JsonProperty
-    private memberName: string;
+    private id: string;
 
     @JsonProperty
     private content: string;
@@ -23,26 +21,17 @@ export class NewsCommentResponse {
     private time: Date;
 
     @JsonProperty
-    private address: string;
+    private against: number;
 
     @JsonProperty
-    private upNumber: number;
+    private vote: number;
 
     @JsonProperty
-    private downNumber: number;
+    private share: number;
 
-    public getMemberId (): string {
-        return this.memberId;
-    }
-    public setMemberId (memberId: string): void {
-        this.memberId = memberId;
-    }
-    public getMemberName (): string {
-        return this.memberName;
-    }
-    public setMemberName (memberName: string): void {
-        this.memberName = memberName;
-    }
+    @JsonProperty
+    private member: MemberResponse;
+
     public getContent (): string {
         return this.content;
     }
@@ -55,23 +44,28 @@ export class NewsCommentResponse {
     public setTime (time: Date): void {
         this.time = time;
     }
-    public getAddress (): string {
-        return this.address;
+    public getAgainst (): number {
+        return this.against;
     }
-    public setAddress (address: string): void {
-        this.address = address;
+    public setAgainst (against: number): void {
+        this.against = against;
     }
-    public getUpNumber (): number {
-        return this.upNumber;
+    public getVote (): number {
+        return this.vote;
     }
-    public setUpNumber (upNumber: number): void {
-        this.upNumber = upNumber;
+    public setVote (vote: number): void {
+        this.vote = vote;
     }
-    public getDownNumber (): number {
-        return this.downNumber;
+    public getShare (): number {
+        return this.share;
     }
-    public setDownNumber (downNumber: number): void {
-        this.downNumber = downNumber;
+    public setShare (share: number): void {
+        this.share = share;
     }
-
+    public getMember (): MemberResponse {
+        return this.member;
+    }
+    public setMember (member: MemberResponse): void {
+        this.member = member;
+    }
 }

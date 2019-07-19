@@ -7,10 +7,13 @@
  * @author yanshaowen
  * @date 2019/7/12 11:41
  */
-import {JsonProperty} from "papio-common";
+import {JsonProperty, ReturnGenericsProperty} from "papio-common";
 import {NewsCommentResponse} from "./NewsCommentResponse";
 
 export class NewsContentResponse {
+
+    @JsonProperty
+    private id: string;
 
     @JsonProperty
     private url: string;
@@ -22,10 +25,10 @@ export class NewsContentResponse {
     private title: string;
 
     @JsonProperty
-    private source: string;
+    private articleSource: string;
 
     @JsonProperty
-    private web: string;
+    private webSource: string;
 
     @JsonProperty
     private editor: string;
@@ -34,8 +37,22 @@ export class NewsContentResponse {
     private time: Date;
 
     @JsonProperty
+    private zone: string;
+
+    @ReturnGenericsProperty(new Map<string, new () => object>().set("Array", String))
+    @JsonProperty
+    private labels: string[];
+
+    @ReturnGenericsProperty(new Map<string, new () => object>().set("Array", NewsCommentResponse))
+    @JsonProperty
     private commentList: NewsCommentResponse[];
 
+    public getId (): string {
+        return this.id;
+    }
+    public setId (id: string): void {
+        this.id = id;
+    }
     public getUrl (): string {
         return this.url;
     }
@@ -54,17 +71,17 @@ export class NewsContentResponse {
     public setTitle (title: string): void {
         this.title = title;
     }
-    public getSource (): string {
-        return this.source;
+    public getArticleSource (): string {
+        return this.articleSource;
     }
-    public setSource (source: string): void {
-        this.source = source;
+    public setArticleSource (articleSource: string): void {
+        this.articleSource = articleSource;
     }
-    public getWeb (): string {
-        return this.web;
+    public getWebSource (): string {
+        return this.webSource;
     }
-    public setWeb (web: string): void {
-        this.web = web;
+    public setWebSource (webSource: string): void {
+        this.webSource = webSource;
     }
     public getEditor (): string {
         return this.editor;
@@ -77,6 +94,18 @@ export class NewsContentResponse {
     }
     public setTime (time: Date): void {
         this.time = time;
+    }
+    public getZone(): string {
+        return this.zone;
+    }
+    public setZone (zone: string): void {
+        this.zone = zone;
+    }
+    public getLabels (): string[] {
+        return this.labels;
+    }
+    public setLabels (labels: string[]): void {
+        this.labels = labels;
     }
     public getCommentList (): NewsCommentResponse[] {
         return this.commentList;

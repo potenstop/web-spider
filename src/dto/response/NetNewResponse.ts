@@ -8,15 +8,9 @@
  * @date 2019/7/11 16:43
  */
 import {NetKeyWordResponse} from "./NetKeyWordResponse";
-import {JsonProperty} from "papio-common";
+import {JsonProperty, ReturnGenericsProperty} from "papio-common";
 
 export class NetNewResponse {
-    public static getReturn(): Map<string, new () => object> {
-        return new Map<string, new () => object>()
-        .set("root", NetNewResponse)
-        .set("root.NetNewResponse.keywords", Array)
-        .set("root.NetNewResponse.keywords.Array", NetKeyWordResponse);
-    }
 
     @JsonProperty
     private title: string;
@@ -40,6 +34,7 @@ export class NetNewResponse {
     private label: string;
 
     @JsonProperty
+    @ReturnGenericsProperty(new Map<string, new () => object>().set("Array", NetKeyWordResponse))
     private keywords: Array<NetKeyWordResponse>;
 
     @JsonProperty
