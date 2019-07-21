@@ -15,7 +15,7 @@ import {
     ProcessUtil,
     RequestMapping,
     ReturnGenericsProperty,
-    Valid
+    Valid,
 } from "papio-common";
 import {LoggerFactory} from "type-slf4";
 import {ProjectConstant} from "../common/constant/ProjectConstant";
@@ -23,6 +23,9 @@ import {NetApi} from "../dao/api/NetApi";
 import {NetNewResponse} from "../dto/response/NetNewResponse";
 import {NetHtml} from "../dao/html/NetHtml";
 import {NewsContentResponse} from "../dto/response/NewsContentResponse";
+import {NewsContentRequest} from "../dto/request/NewsContentRequest";
+import {WebApi} from "../dao/api/WebApi";
+import {log} from "util";
 
 const logger = LoggerFactory.getLogger(ProjectConstant.PROJECT_NAME + ".controller.NewController");
 
@@ -35,6 +38,9 @@ export class NewController {
     @Autowired
     private netHtml: NetHtml;
 
+    @Autowired
+    private webApi: WebApi;
+
     public async getNewsContent(news: NetNewResponse): Promise<NewsContentResponse>{
         await ProcessUtil.sleep(1000);
         logger.info("开始请求新闻内容 url:[{}]", news.getReadUrl());
@@ -45,7 +51,7 @@ export class NewController {
 
         let labels: string[] = [];
         if (news.getKeywords()) {
-            labels = news.getKeywords().map(value => value.getName());
+            labels = news.getKeywords().map((value) => value.getName());
         }
         newsContentResponse.setLabels(labels);
         return newsContentResponse;
@@ -53,23 +59,28 @@ export class NewController {
 
     @GetMapping("/tech")
     @Valid
-    @ReturnGenericsProperty(new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Array).set("Standard.data.Array", NewsContentResponse))
-    public async getTech163(): Promise<Standard<NewsContentResponse[]>> {
+    @ReturnGenericsProperty(new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Boolean))
+    public async getTech163(): Promise<Standard<boolean>> {
         logger.info("getTech163-controller-start-request");
-        const standard = new Standard<NewsContentResponse[]>();
-        const newsContentResponseList: NewsContentResponse[] = [];
+        const standard = new Standard<boolean>();
         // 获取网易科技新闻 前10页
         for (let page = 1; page <= 10; page++) {
             await ProcessUtil.sleep(3000);
             logger.info("开始请求新闻列表 第[{}]页", page);
-            let netNewResponse = await this.netApi.getTechDataByPage(page);
-            for (let news of netNewResponse) {
+            const netNewResponse = await this.netApi.getTechDataByPage(page);
+            for (const news of netNewResponse) {
                 const newsContentResponse = await this.getNewsContent(news);
                 newsContentResponse.setZone("tech");
-                newsContentResponseList.push(newsContentResponse);
+                const json = JsonProtocol.toJson(newsContentResponse);
+                const newsContentRequest = JsonProtocol.jsonToBean(json, NewsContentRequest);
+                this.webApi.pushNews(newsContentRequest).then(result => {
+                    logger.info("推送结果", JSON.stringify(result));
+                }).catch((e) => {
+                    logger.error("推送失败", e);
+                });
             }
         }
-        standard.setData(newsContentResponseList);
+        standard.setData(true);
         logger.info("getTech163-controller-end-request");
         return standard;
     }

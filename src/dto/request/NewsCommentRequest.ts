@@ -1,16 +1,16 @@
 import {JsonProperty} from "papio-common";
-import {MemberResponse} from "./MemberResponse";
+import {MemberRequest} from "./MemberResponse";
 
 /**
  *
  * 功能描述:
  *
- * @className NewsCommentResponse
+ * @className NewsCommentRequest
  * @projectName web-spider
  * @author yanshaowen
- * @date 2019/7/12 11:45
+ * @date 2019/7/20 21:20
  */
-export class NewsCommentResponse {
+export class NewsCommentRequest {
     @JsonProperty
     private id: string;
 
@@ -30,7 +30,7 @@ export class NewsCommentResponse {
     private share: number;
 
     @JsonProperty
-    private member: MemberResponse;
+    private member: MemberRequest;
 
     public getContent(): string {
         return this.content;
@@ -62,10 +62,10 @@ export class NewsCommentResponse {
     public setShare(share: number): void {
         this.share = share;
     }
-    public getMember(): MemberResponse {
+    public getMember(): MemberRequest {
         return this.member;
     }
-    public setMember(member: MemberResponse): void {
+    public setMember(member: MemberRequest): void {
         this.member = member;
     }
 }

@@ -9,7 +9,7 @@ import {JsonProperty} from "papio-common";
  * @author yanshaowen
  * @date 2019/7/17 15:28
  */
-export class MemberResponse {
+export class MemberRequest {
     @JsonProperty
     private memberId: string;
 

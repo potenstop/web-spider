@@ -1,17 +1,16 @@
+import {JsonProperty, ReturnGenericsProperty} from "papio-common";
+import {NewsCommentRequest} from "./NewsCommentRequest";
+
 /**
  *
  * 功能描述:
  *
- * @className NewsContentResponse
+ * @className NewsContentRequest
  * @projectName web-spider
  * @author yanshaowen
- * @date 2019/7/12 11:41
+ * @date 2019/7/20 21:17
  */
-import {JsonProperty, ReturnGenericsProperty} from "papio-common";
-import {NewsCommentResponse} from "./NewsCommentResponse";
-
-export class NewsContentResponse {
-
+export class NewsContentRequest {
     @JsonProperty
     private id: string;
 
@@ -43,9 +42,9 @@ export class NewsContentResponse {
     @JsonProperty
     private labels: string[];
 
-    @ReturnGenericsProperty(new Map<string, new () => object>().set("Array", NewsCommentResponse))
+    @ReturnGenericsProperty(new Map<string, new () => object>().set("Array", NewsCommentRequest))
     @JsonProperty
-    private commentList: NewsCommentResponse[];
+    private commentList: NewsCommentRequest[];
 
     public getId(): string {
         return this.id;
@@ -107,10 +106,10 @@ export class NewsContentResponse {
     public setLabels(labels: string[]): void {
         this.labels = labels;
     }
-    public getCommentList(): NewsCommentResponse[] {
+    public getCommentList(): NewsCommentRequest[] {
         return this.commentList;
     }
-    public setCommentList(commentList: NewsCommentResponse[]): void {
+    public setCommentList(commentList: NewsCommentRequest[]): void {
         this.commentList = commentList;
     }
 }
