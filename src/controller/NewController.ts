@@ -23,6 +23,10 @@ import {NetApi} from "../dao/api/NetApi";
 import {NetNewResponse} from "../dto/response/NetNewResponse";
 import {NetHtml} from "../dao/html/NetHtml";
 import {NewsContentResponse} from "../dto/response/NewsContentResponse";
+import {ContentNews} from "../dao/web/ContentNews";
+import {ContentNewsRequest} from "../dto/request/ContentNewsRequest";
+import {ContentCommentOutRequest} from "../dto/request/ContentCommentOutRequest";
+import {UserOutRequest} from "../dto/request/UserOutRequest";
 
 const logger = LoggerFactory.getLogger(ProjectConstant.PROJECT_NAME + ".controller.NewController");
 
@@ -34,6 +38,9 @@ export class NewController {
 
     @Autowired
     private netHtml: NetHtml;
+
+    @Autowired
+    private contentNews: ContentNews;
 
     public async getNewsContent(news: NetNewResponse): Promise<NewsContentResponse>{
         await ProcessUtil.sleep(1000);
@@ -53,11 +60,10 @@ export class NewController {
 
     @GetMapping("/tech")
     @Valid
-    @ReturnGenericsProperty(new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Array).set("Standard.data.Array", NewsContentResponse))
-    public async getTech163(): Promise<Standard<NewsContentResponse[]>> {
+    @ReturnGenericsProperty(new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Boolean))
+    public async getTech163(): Promise<Standard<boolean>> {
         logger.info("getTech163-controller-start-request");
-        const standard = new Standard<NewsContentResponse[]>();
-        const newsContentResponseList: NewsContentResponse[] = [];
+        const standard = new Standard<boolean>();
         // 获取网易科技新闻 前10页
         for (let page = 1; page <= 10; page++) {
             await ProcessUtil.sleep(3000);
@@ -66,10 +72,26 @@ export class NewController {
             for (let news of netNewResponse) {
                 const newsContentResponse = await this.getNewsContent(news);
                 newsContentResponse.setZone("tech");
-                newsContentResponseList.push(newsContentResponse);
+                const contentNewsRequest = new ContentNewsRequest();
+                JsonProtocol.copyProperties(newsContentResponse, contentNewsRequest);
+                contentNewsRequest.setTime(newsContentResponse.getTime());
+                contentNewsRequest.setCommentList([]);
+                newsContentResponse.getCommentList().forEach(value => {
+                    const contentCommentOutRequest = new ContentCommentOutRequest();
+                    const userOutRequest = new UserOutRequest();
+                    JsonProtocol.copyProperties(value, contentCommentOutRequest);
+                    JsonProtocol.copyProperties(value.getUser(), userOutRequest);
+                    contentCommentOutRequest.setUser(userOutRequest);
+                    contentCommentOutRequest.setTime(value.getTime());
+                    contentNewsRequest.getCommentList().push(contentCommentOutRequest)
+                })
+                logger.info("push-start request:[{}]", JsonProtocol.toJSONString(contentNewsRequest));
+                const result = await this.contentNews.push(contentNewsRequest);
+                logger.info("push-end response:[{}]", JsonProtocol.toJSONString(result, new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Boolean)));
+
             }
         }
-        standard.setData(newsContentResponseList);
+        standard.setData(true);
         logger.info("getTech163-controller-end-request");
         return standard;
     }

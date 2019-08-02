@@ -1,5 +1,5 @@
 import {JsonProperty, ReturnGenericsProperty} from "papio-common";
-import {UserResponse} from "./UserResponse";
+import {UserOutRequest} from "./UserOutRequest";
 
 /**
  *
@@ -10,7 +10,7 @@ import {UserResponse} from "./UserResponse";
  * @author yanshaowen
  * @date 2019/7/12 11:45
  */
-export class NewsCommentResponse {
+export class ContentCommentOutRequest {
     @JsonProperty
     private id: string;
 
@@ -30,8 +30,8 @@ export class NewsCommentResponse {
     private share: number;
 
     @JsonProperty
-    @ReturnGenericsProperty(new Map<string, new () => object>().set("user", UserResponse))
-    private user: UserResponse;
+    @ReturnGenericsProperty(new Map<string, new () => object>().set("user", UserOutRequest))
+    private user: UserOutRequest;
 
     public getContent (): string {
         return this.content;
@@ -63,10 +63,10 @@ export class NewsCommentResponse {
     public setShare (share: number): void {
         this.share = share;
     }
-    public getUser (): UserResponse {
+    public getUser (): UserOutRequest {
         return this.user;
     }
-    public setUser (user: UserResponse): void {
+    public setUser (user: UserOutRequest): void {
         this.user = user;
     }
 }

@@ -13,7 +13,7 @@ import {HttpConstant} from "../../common/constant/HttpConstant";
 import * as IconvLite from "iconv-lite";
 import {NetNewResponse} from "../../dto/response/NetNewResponse";
 import {NewsCommentResponse} from "../../dto/response/NewsCommentResponse";
-import {MemberResponse} from "../../dto/response/MemberResponse";
+import {UserResponse} from "../../dto/response/UserResponse";
 
 const techDataList = "https://tech.163.com/special/00097UHL/tech_datalist";
 
@@ -66,14 +66,13 @@ export class NetApi {
                     newsCommentResponse.setContent(commentContent.content);
                     newsCommentResponse.setShare(commentContent.shareCount);
                     newsCommentResponse.setTime(DateUtil.parse(commentContent.createTime, DateFormatEnum.DATETIME));
-                    const memberResponse = new MemberResponse();
+                    const memberResponse = new UserResponse();
                     memberResponse.setAvatar(commentContent.user.avatar);
-                    memberResponse.setMemberName(commentContent.user.nickname);
-                    memberResponse.setMemberName(commentContent.user.nickname);
-                    memberResponse.setSourceMemberId(commentContent.user.userId);
+                    memberResponse.setUserName(commentContent.user.nickname);
+                    memberResponse.setSourceUserId(commentContent.user.userId);
                     memberResponse.setSourceWeb("net");
                     memberResponse.setSourceEntrance("comment");
-                    newsCommentResponse.setMember(memberResponse);
+                    newsCommentResponse.setUser(memberResponse);
                     newsCommentResponseList.push(newsCommentResponse);
                 }
                 if (counts < 30) {
