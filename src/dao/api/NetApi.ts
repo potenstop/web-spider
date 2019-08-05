@@ -18,19 +18,19 @@ import {UserResponse} from "../../dto/response/UserResponse";
 const techDataList = "https://tech.163.com/special/00097UHL/tech_datalist";
 
 function cleanDataCallback(data: string) {
-    //去掉头部的 data_callback(
-    let str = data.replace(/^data_callback\(/,'');
-    //去掉尾部的 )
-    str = str.replace(/\)$/, '');
+    // 去掉头部的 data_callback(
+    let str = data.replace(/^data_callback\(/, "");
+    // 去掉尾部的 )
+    str = str.replace(/\)$/, "");
     return str;
 }
 
 @Configuration
 export class NetApi {
-    private static commentApi= "http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads";
+    private static commentApi = "http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads";
 
     public async getTechDataByPage(page: number): Promise<NetNewResponse[]> {
-        let pageStr: string = '01';
+        let pageStr: string = "01";
         if (page === 1) {
             pageStr = "";
         } else if (page < 10) {
@@ -38,9 +38,9 @@ export class NetApi {
         } else {
             pageStr = "_" + page;
         }
-        let data = await fetch(techDataList + pageStr + ".js?callback=data_callback", {
-            headers: HttpConstant.NET_GBK_HEADERS
-        }).then(res => res.buffer());
+        const data = await fetch(techDataList + pageStr + ".js?callback=data_callback", {
+            headers: HttpConstant.NET_GBK_HEADERS,
+        }).then((res) => res.buffer());
         let dataStr = IconvLite.decode(data, "GBK");
         dataStr = cleanDataCallback(dataStr);
         return JsonProtocol.arrayToBeans<NetNewResponse>(JSON.parse(dataStr), Array, new Map<string, new () => object>().set("Array", NetNewResponse));
@@ -53,11 +53,11 @@ export class NetApi {
         while (hasNextPage) {
             try {
                 const commentUrl = `${NetApi.commentApi}/${newsId}/comments/newList?ibc=newspc&limit=30&showLevelThreshold=72&headLimit=1&tailLimit=2&offset=${offset}`;
-                const commentData = await fetch(commentUrl,{
-                    headers: HttpConstant.NET_GBK_HEADERS
-                }).then(res => res.json());
+                const commentData = await fetch(commentUrl, {
+                    headers: HttpConstant.NET_GBK_HEADERS,
+                }).then((res) => res.json());
                 let counts = 0;
-                for (const commentId in commentData.comments) {
+                for (const commentId of Object.keys(commentData.comments)) {
                     counts++;
                     const commentContent = commentData.comments[commentId];
                     const newsCommentResponse = new NewsCommentResponse();

@@ -40,7 +40,7 @@ export class NetHtml {
         newsContentResponse.setArticleSource(root("#ne_article_source").text());
         newsContentResponse.setHtml(root("#endText").html());
         newsContentResponse.setUrl(url);
-        newsContentResponse.setWebSource("net");
+        newsContentResponse.setWebSource("net_news");
         newsContentResponse.setEditor(root(".ep-editor").text());
 
         // const browser = await puppeteer.launch({

@@ -17,16 +17,16 @@ export class NetKeyWordResponse {
     @JsonProperty("keyname")
     private name: string;
 
-    public getLink (): string {
+    public getLink(): string {
         return this.link;
     }
-    public setLink (link: string): void {
+    public setLink(link: string): void {
         this.link = link;
     }
-    public getName (): string {
+    public getName(): string {
         return this.name;
     }
-    public setName (name: string): void {
+    public setName(name: string): void {
         this.name = name;
     }
 }

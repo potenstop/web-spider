@@ -4,15 +4,17 @@ import {JsonProperty} from "papio-common";
  *
  * 功能描述:
  *
- * @className UserResponse
+ * @className MemberResponse
  * @projectName web-spider
  * @author yanshaowen
  * @date 2019/7/17 15:28
  */
-export class UserResponse {
+export class MemberRequest {
+    @JsonProperty
+    private memberId: string;
 
     @JsonProperty
-    private userName: string;
+    private memberName: string;
 
     @JsonProperty
     private avatar: string;
@@ -24,13 +26,19 @@ export class UserResponse {
     private sourceEntrance: string;
 
     @JsonProperty
-    private sourceUserId: string;
+    private sourceMemberId: string;
 
-    public getUserName (): string {
-        return this.userName;
+    public getMemberId(): string {
+        return this.memberId;
     }
-    public setUserName (userName: string): void {
-        this.userName = userName;
+    public setMemberId(memberId: string): void {
+        this.memberId = memberId;
+    }
+    public getMemberName(): string {
+        return this.memberName;
+    }
+    public setMemberName(memberName: string): void {
+        this.memberName = memberName;
     }
     public getAvatar(): string {
         return this.avatar;
@@ -50,11 +58,11 @@ export class UserResponse {
     public setSourceEntrance(sourceEntrance: string): void {
         this.sourceEntrance = sourceEntrance;
     }
-    public getSourceUserId (): string {
-        return this.sourceUserId;
+    public getSourceMemberId(): string {
+        return this.sourceMemberId;
     }
-    public setSourceUserId (sourceUserId: string): void {
-        this.sourceUserId = sourceUserId;
+    public setSourceMemberId(sourceMemberId: string): void {
+        this.sourceMemberId = sourceMemberId;
     }
 
 }

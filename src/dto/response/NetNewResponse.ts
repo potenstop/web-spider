@@ -35,7 +35,7 @@ export class NetNewResponse {
 
     @JsonProperty
     @ReturnGenericsProperty(new Map<string, new () => object>().set("Array", NetKeyWordResponse))
-    private keywords: Array<NetKeyWordResponse>;
+    private keywords: NetKeyWordResponse[];
 
     @JsonProperty
     private time: string;
@@ -43,64 +43,64 @@ export class NetNewResponse {
     @JsonProperty("imgurl")
     private imgUrl: string;
 
-    public getTitle (): string {
+    public getTitle(): string {
         return this.title;
     }
-    public setTitle (title: string): void {
+    public setTitle(title: string): void {
         this.title = title;
     }
-    public getReadUrl (): string {
+    public getReadUrl(): string {
         return this.readUrl;
     }
-    public setReadUrl (readUrl: string): void {
+    public setReadUrl(readUrl: string): void {
         this.readUrl = readUrl;
     }
-    public getCommentUrl (): string {
+    public getCommentUrl(): string {
         return this.commentUrl;
     }
-    public setCommentUrl (commentUrl: string): void {
+    public setCommentUrl(commentUrl: string): void {
         this.commentUrl = commentUrl;
     }
-    public getTienum (): number {
+    public getTienum(): number {
         return this.tienum;
     }
-    public setTienum (tienum: number): void {
+    public setTienum(tienum: number): void {
         this.tienum = tienum;
     }
-    public getTlastid (): string {
+    public getTlastid(): string {
         return this.tlastid;
     }
-    public setTlastid (tlastid: string): void {
+    public setTlastid(tlastid: string): void {
         this.tlastid = tlastid;
     }
-    public getTlink (): string {
+    public getTlink(): string {
         return this.tlink;
     }
-    public setTlink (tlink: string): void {
+    public setTlink(tlink: string): void {
         this.tlink = tlink;
     }
-    public getLabel (): string {
+    public getLabel(): string {
         return this.label;
     }
-    public setLabel (label: string): void {
+    public setLabel(label: string): void {
         this.label = label;
     }
-    public getKeywords (): NetKeyWordResponse[] {
+    public getKeywords(): NetKeyWordResponse[] {
         return this.keywords;
     }
-    public setKeywords (keywords: NetKeyWordResponse[]): void {
+    public setKeywords(keywords: NetKeyWordResponse[]): void {
         this.keywords = keywords;
     }
-    public getTime (): string {
+    public getTime(): string {
         return this.time;
     }
-    public setTime (time: string): void {
+    public setTime(time: string): void {
         this.time = time;
     }
-    public getImgUrl (): string {
+    public getImgUrl(): string {
         return this.imgUrl;
     }
-    public setImgUrl (imgUrl: string): void {
+    public setImgUrl(imgUrl: string): void {
         this.imgUrl = imgUrl;
     }
 }

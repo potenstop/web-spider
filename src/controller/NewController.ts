@@ -15,7 +15,7 @@ import {
     ProcessUtil,
     RequestMapping,
     ReturnGenericsProperty,
-    Valid
+    Valid,
 } from "papio-common";
 import {LoggerFactory} from "type-slf4";
 import {ProjectConstant} from "../common/constant/ProjectConstant";
@@ -23,6 +23,8 @@ import {NetApi} from "../dao/api/NetApi";
 import {NetNewResponse} from "../dto/response/NetNewResponse";
 import {NetHtml} from "../dao/html/NetHtml";
 import {NewsContentResponse} from "../dto/response/NewsContentResponse";
+import {NewsContentRequest} from "../dto/request/NewsContentRequest";
+import {WebApi} from "../dao/api/WebApi";
 import {ContentNews} from "../dao/web/ContentNews";
 import {ContentNewsRequest} from "../dto/request/ContentNewsRequest";
 import {ContentCommentOutRequest} from "../dto/request/ContentCommentOutRequest";
@@ -42,6 +44,9 @@ export class NewController {
     @Autowired
     private contentNews: ContentNews;
 
+    @Autowired
+    private webApi: WebApi;
+
     public async getNewsContent(news: NetNewResponse): Promise<NewsContentResponse>{
         await ProcessUtil.sleep(1000);
         logger.info("开始请求新闻内容 url:[{}]", news.getReadUrl());
@@ -52,7 +57,7 @@ export class NewController {
 
         let labels: string[] = [];
         if (news.getKeywords()) {
-            labels = news.getKeywords().map(value => value.getName());
+            labels = news.getKeywords().map((value) => value.getName());
         }
         newsContentResponse.setLabels(labels);
         return newsContentResponse;
@@ -68,8 +73,8 @@ export class NewController {
         for (let page = 1; page <= 10; page++) {
             await ProcessUtil.sleep(3000);
             logger.info("开始请求新闻列表 第[{}]页", page);
-            let netNewResponse = await this.netApi.getTechDataByPage(page);
-            for (let news of netNewResponse) {
+            const netNewResponse = await this.netApi.getTechDataByPage(page);
+            for (const news of netNewResponse) {
                 const newsContentResponse = await this.getNewsContent(news);
                 newsContentResponse.setZone("tech");
                 const contentNewsRequest = new ContentNewsRequest();
@@ -89,6 +94,13 @@ export class NewController {
                 const result = await this.contentNews.push(contentNewsRequest);
                 logger.info("push-end response:[{}]", JsonProtocol.toJSONString(result, new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Boolean)));
 
+                const json = JsonProtocol.toJson(newsContentResponse);
+                const newsContentRequest = JsonProtocol.jsonToBean(json, NewsContentRequest);
+                this.webApi.pushNews(newsContentRequest).then(result => {
+                    logger.info("推送结果", JSON.stringify(result));
+                }).catch((e) => {
+                    logger.error("推送失败", e);
+                });
             }
         }
         standard.setData(true);
