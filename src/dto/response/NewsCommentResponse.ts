@@ -33,6 +33,12 @@ export class NewsCommentResponse {
     @ReturnGenericsProperty(new Map<string, new () => object>().set("user", UserResponse))
     private user: UserResponse;
 
+    public getId(): string {
+        return this.id;
+    }
+    public setId(id: string): void {
+        this.id = id;
+    }
     public getContent(): string {
         return this.content;
     }

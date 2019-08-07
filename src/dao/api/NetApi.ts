@@ -14,8 +14,11 @@ import * as IconvLite from "iconv-lite";
 import {NetNewResponse} from "../../dto/response/NetNewResponse";
 import {NewsCommentResponse} from "../../dto/response/NewsCommentResponse";
 import {UserResponse} from "../../dto/response/UserResponse";
+import {LoggerFactory} from "type-slf4";
+import {ProjectConstant} from "../../common/constant/ProjectConstant";
 
 const techDataList = "https://tech.163.com/special/00097UHL/tech_datalist";
+const logger = LoggerFactory.getLogger(ProjectConstant.PROJECT_NAME + ".dao.api.NetApi");
 
 function cleanDataCallback(data: string) {
     // 去掉头部的 data_callback(
@@ -53,6 +56,7 @@ export class NetApi {
         while (hasNextPage) {
             try {
                 const commentUrl = `${NetApi.commentApi}/${newsId}/comments/newList?ibc=newspc&limit=30&showLevelThreshold=72&headLimit=1&tailLimit=2&offset=${offset}`;
+                logger.info("请求评论开始 commentUrl:[{}]", commentUrl);
                 const commentData = await fetch(commentUrl, {
                     headers: HttpConstant.NET_GBK_HEADERS,
                 }).then((res) => res.json());
@@ -66,6 +70,7 @@ export class NetApi {
                     newsCommentResponse.setContent(commentContent.content);
                     newsCommentResponse.setShare(commentContent.shareCount);
                     newsCommentResponse.setTime(DateUtil.parse(commentContent.createTime, DateFormatEnum.DATETIME));
+                    newsCommentResponse.setId(commentId);
                     const memberResponse = new UserResponse();
                     memberResponse.setAvatar(commentContent.user.avatar);
                     memberResponse.setUserName(commentContent.user.nickname);

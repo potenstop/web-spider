@@ -32,7 +32,7 @@
     "iconv-lite": "^0.5.0",
     "node-fetch": "^2.6.0",
     "papio": "0.0.16",
-    "papio-common": "0.0.16",
+    "papio-common": "0.0.17",
     "puppeteer-core": "^1.18.1"
   },
   "engines": {

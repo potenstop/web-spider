@@ -24,7 +24,6 @@ import {NetNewResponse} from "../dto/response/NetNewResponse";
 import {NetHtml} from "../dao/html/NetHtml";
 import {NewsContentResponse} from "../dto/response/NewsContentResponse";
 import {NewsContentRequest} from "../dto/request/NewsContentRequest";
-import {WebApi} from "../dao/api/WebApi";
 import {ContentNews} from "../dao/web/ContentNews";
 import {ContentNewsRequest} from "../dto/request/ContentNewsRequest";
 import {ContentCommentOutRequest} from "../dto/request/ContentCommentOutRequest";
@@ -44,8 +43,6 @@ export class NewController {
     @Autowired
     private contentNews: ContentNews;
 
-    @Autowired
-    private webApi: WebApi;
 
     public async getNewsContent(news: NetNewResponse): Promise<NewsContentResponse>{
         await ProcessUtil.sleep(1000);
@@ -75,6 +72,10 @@ export class NewController {
             logger.info("开始请求新闻列表 第[{}]页", page);
             const netNewResponse = await this.netApi.getTechDataByPage(page);
             for (const news of netNewResponse) {
+                if (news.getReadUrl().indexOf("photoview") !== -1) {
+                    // 过滤图集
+                    continue;
+                }
                 const newsContentResponse = await this.getNewsContent(news);
                 newsContentResponse.setZone("tech");
                 const contentNewsRequest = new ContentNewsRequest();
@@ -89,18 +90,12 @@ export class NewController {
                     contentCommentOutRequest.setUser(userOutRequest);
                     contentCommentOutRequest.setTime(value.getTime());
                     contentNewsRequest.getCommentList().push(contentCommentOutRequest)
-                })
-                logger.info("push-start request:[{}]", JsonProtocol.toJSONString(contentNewsRequest));
-                const result = await this.contentNews.push(contentNewsRequest);
-                logger.info("push-end response:[{}]", JsonProtocol.toJSONString(result, new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Boolean)));
-
-                const json = JsonProtocol.toJson(newsContentResponse);
-                const newsContentRequest = JsonProtocol.jsonToBean(json, NewsContentRequest);
-                this.webApi.pushNews(newsContentRequest).then(result => {
-                    logger.info("推送结果", JSON.stringify(result));
-                }).catch((e) => {
-                    logger.error("推送失败", e);
                 });
+                logger.info("push-start request:[{}]", JsonProtocol.toJSONString(contentNewsRequest));
+                await this.contentNews.push(contentNewsRequest).catch((error) => {
+                    logger.error("push-error ", error);
+                });
+                logger.info("push-end response");
             }
         }
         standard.setData(true);

@@ -17,7 +17,7 @@ export class WebApiConfig {
         const httpDataSource = new RestDataSource();
         httpDataSource.setName("master");
         httpDataSource.setReadOnly(false);
-        httpDataSource.setUrl("http://localhost:8080");
+        httpDataSource.setUrl("http://localhost:20001");
         httpDataSource.build();
         return httpDataSource;
     }
