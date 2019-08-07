@@ -11,7 +11,7 @@ import {PostMapping, RequestBody, RestRemote, ReturnGenericsProperty} from "papi
 import {Standard} from "papio";
 import {ContentNewsRequest} from "../../dto/request/ContentNewsRequest";
 
-@RestRemote({filepath: __dirname, name: "/content-news"})
+@RestRemote({filepath: __dirname, name: "/content-news", timeout: 0})
 export class ContentNews {
     @PostMapping({path: "/push"})
     @ReturnGenericsProperty(new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Boolean))

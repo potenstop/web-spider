@@ -81,6 +81,7 @@ export class NewController {
                 const contentNewsRequest = new ContentNewsRequest();
                 JsonProtocol.copyProperties(newsContentResponse, contentNewsRequest);
                 contentNewsRequest.setTime(newsContentResponse.getTime());
+                contentNewsRequest.setLabels(newsContentResponse.getLabels());
                 contentNewsRequest.setCommentList([]);
                 newsContentResponse.getCommentList().forEach(value => {
                     const contentCommentOutRequest = new ContentCommentOutRequest();
