@@ -1,0 +1,10 @@
+{
+  "app.id": "web-spider",
+  "apollo": {
+    "bootstrap": {
+      "enabled": true,
+      "namespaces": "application"
+    },
+    "meta": "http://local-meta.potens.top"
+  }
+}

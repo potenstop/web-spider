@@ -9,6 +9,7 @@
  */
 import { EnableAutoConfiguration, PapioApplication} from "papio";
 import {CommonConstant, Bean, ComponentScan } from "papio-common";
+import {PapioApollo} from "papio-apollo";
 
 @EnableAutoConfiguration
 @ComponentScan("@controller")
@@ -20,8 +21,8 @@ export class WebSpider {
     public static main(): void {
         PapioApplication.run(WebSpider, process.env);
     }
-    @Bean(CommonConstant.START_ARGS)
-    public startArgs(): object {
-        return {port: 3002};
+    @Bean("papioApollo")
+    public loadApollo() {
+        return PapioApollo.start();
     }
 }

@@ -23,7 +23,6 @@ import {NetApi} from "../dao/api/NetApi";
 import {NetNewResponse} from "../dto/response/NetNewResponse";
 import {NetHtml} from "../dao/html/NetHtml";
 import {NewsContentResponse} from "../dto/response/NewsContentResponse";
-import {NewsContentRequest} from "../dto/request/NewsContentRequest";
 import {ContentNews} from "../dao/web/ContentNews";
 import {ContentNewsRequest} from "../dto/request/ContentNewsRequest";
 import {ContentCommentOutRequest} from "../dto/request/ContentCommentOutRequest";
@@ -43,8 +42,7 @@ export class NewController {
     @Autowired
     private contentNews: ContentNews;
 
-
-    public async getNewsContent(news: NetNewResponse): Promise<NewsContentResponse>{
+    public async getNewsContent(news: NetNewResponse): Promise<NewsContentResponse> {
         await ProcessUtil.sleep(1000);
         logger.info("开始请求新闻内容 url:[{}]", news.getReadUrl());
         const newsContentResponse = await this.netHtml.getNewsContent(news.getReadUrl());
@@ -83,14 +81,14 @@ export class NewController {
                 contentNewsRequest.setTime(newsContentResponse.getTime());
                 contentNewsRequest.setLabels(newsContentResponse.getLabels());
                 contentNewsRequest.setCommentList([]);
-                newsContentResponse.getCommentList().forEach(value => {
+                newsContentResponse.getCommentList().forEach((value) => {
                     const contentCommentOutRequest = new ContentCommentOutRequest();
                     const userOutRequest = new UserOutRequest();
                     JsonProtocol.copyProperties(value, contentCommentOutRequest);
                     JsonProtocol.copyProperties(value.getUser(), userOutRequest);
                     contentCommentOutRequest.setUser(userOutRequest);
                     contentCommentOutRequest.setTime(value.getTime());
-                    contentNewsRequest.getCommentList().push(contentCommentOutRequest)
+                    contentNewsRequest.getCommentList().push(contentCommentOutRequest);
                 });
                 logger.info("push-start request:[{}]", JsonProtocol.toJSONString(contentNewsRequest));
                 await this.contentNews.push(contentNewsRequest).catch((error) => {
@@ -103,6 +101,5 @@ export class NewController {
         logger.info("getTech163-controller-end-request");
         return standard;
     }
-
 
 }
