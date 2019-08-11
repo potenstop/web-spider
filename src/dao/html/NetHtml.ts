@@ -1,4 +1,4 @@
-import {Autowired, Configuration, DateFormatEnum, DateUtil} from "papio-common";
+import {Autowired, Configuration, DateFormatEnum, DateUtil} from "papio";
 import * as IconvLite from "iconv-lite";
 import {HttpConstant} from "../../common/constant/HttpConstant";
 import fetch from "node-fetch";

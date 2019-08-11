@@ -7,26 +7,25 @@
  * @author yanshaowen
  * @date 2019/8/2 12:36
  */
-import {Bean, Configuration, MapperScan, RestDataSource} from "papio-common";
+import {Autowired, Bean, Configuration, MapperScan, RestDataSource} from "papio";
 import {Value} from "papio-apollo/lib/annotation/Value";
+import {ApolloConfig} from "./ApolloConfig";
 
 @Configuration
 @MapperScan("@dao/web")
 export class WebApiConfig {
     @Value("web.spider.api.url")
-    private url: string;
+    private webSpiderApiUrl: string;
 
-    public getUrl(): string {
-        return this.url;
+    private getWebSpiderApiUrl() {
+        return this.webSpiderApiUrl;
     }
     @Bean
     public restTestDataSourceMaster() {
         const httpDataSource = new RestDataSource();
         httpDataSource.setName("master");
         httpDataSource.setReadOnly(false);
-        console.log(global)
-        console.log(this.getUrl());
-        httpDataSource.setUrl(this.getUrl());
+        httpDataSource.setUrl(this.getWebSpiderApiUrl());
         httpDataSource.build();
         return httpDataSource;
     }

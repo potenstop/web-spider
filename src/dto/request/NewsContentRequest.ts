@@ -1,4 +1,4 @@
-import {JsonProperty, ReturnGenericsProperty} from "papio-common";
+import {JsonProperty, ReturnGenericsProperty} from "papio";
 import {NewsCommentRequest} from "./NewsCommentRequest";
 
 /**

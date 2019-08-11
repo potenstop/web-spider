@@ -8,7 +8,7 @@
  * @date 2019/7/11 9:52
  */
 import fetch from "node-fetch";
-import {Configuration, DateFormatEnum, DateUtil, JsonProtocol} from "papio-common";
+import {Configuration, DateFormatEnum, DateUtil, JsonProtocol} from "papio";
 import {HttpConstant} from "../../common/constant/HttpConstant";
 import * as IconvLite from "iconv-lite";
 import {NetNewResponse} from "../../dto/response/NetNewResponse";

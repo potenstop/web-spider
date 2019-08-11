@@ -8,7 +8,7 @@
  * @date 2018/12/21 14:29
  */
 import { EnableAutoConfiguration, PapioApplication} from "papio";
-import {CommonConstant, Bean, ComponentScan } from "papio-common";
+import {CommonConstant, Bean, ComponentScan } from "papio";
 import {PapioApollo} from "papio-apollo";
 
 @EnableAutoConfiguration

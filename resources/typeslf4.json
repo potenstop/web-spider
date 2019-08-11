@@ -21,8 +21,8 @@
   ],
   "loggers": [
     {"name": "papio.*", "level": "TRACE", "additivity": false, "appenderRefs":  [{"ref": "APPLICATION"}, {"ref": "CONSOLE"}]},
-    {"name": "papio-common.*", "level": "TRACE", "additivity": false, "appenderRefs":  [{"ref": "APPLICATION"}, {"ref": "CONSOLE"}]},
-    {"name": "web-spider.*", "level": "TRACE", "additivity": false, "appenderRefs":  [{"ref": "APPLICATION"}, {"ref": "CONSOLE"}]}
+    {"name": "web-spider.*", "level": "TRACE", "additivity": false, "appenderRefs":  [{"ref": "APPLICATION"}, {"ref": "CONSOLE"}]},
+    {"name": "web-apollo.*", "level": "TRACE", "additivity": false, "appenderRefs":  [{"ref": "APPLICATION"}, {"ref": "CONSOLE"}]}
   ],
   "root": {
     "level": "TRACE",

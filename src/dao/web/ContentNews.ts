@@ -7,7 +7,7 @@
  * @author yanshaowen
  * @date 2019/8/2 13:05
  */
-import {PostMapping, RequestBody, RestRemote, ReturnGenericsProperty} from "papio-common";
+import {PostMapping, RequestBody, RestRemote, ReturnGenericsProperty} from "papio";
 import {Standard} from "papio";
 import {ContentNewsRequest} from "../../dto/request/ContentNewsRequest";
 

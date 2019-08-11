@@ -7,7 +7,7 @@
  * @author yanshaowen
  * @date 2019/7/11 16:48
  */
-import {JsonProperty} from "papio-common";
+import {JsonProperty} from "papio";
 
 export class NetKeyWordResponse {
 

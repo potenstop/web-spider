@@ -8,7 +8,7 @@
  * @date 2019/7/11 16:43
  */
 import {NetKeyWordResponse} from "./NetKeyWordResponse";
-import {JsonProperty, ReturnGenericsProperty} from "papio-common";
+import {JsonProperty, ReturnGenericsProperty} from "papio";
 
 export class NetNewResponse {
 

@@ -7,7 +7,7 @@
  * @author yanshaowen
  * @date 2019/7/17 12:37
  */
-import {Configuration} from "papio-common";
+import {Configuration} from "papio";
 
 @Configuration
 export class EnvConfig {

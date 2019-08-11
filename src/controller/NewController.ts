@@ -16,7 +16,7 @@ import {
     RequestMapping,
     ReturnGenericsProperty,
     Valid,
-} from "papio-common";
+} from "papio";
 import {LoggerFactory} from "type-slf4";
 import {ProjectConstant} from "../common/constant/ProjectConstant";
 import {NetApi} from "../dao/api/NetApi";

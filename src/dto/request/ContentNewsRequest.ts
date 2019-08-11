@@ -7,7 +7,7 @@
  * @author yanshaowen
  * @date 2019/7/12 11:41
  */
-import {JsonProperty, ReturnGenericsProperty} from "papio-common";
+import {JsonProperty, ReturnGenericsProperty} from "papio";
 import { ContentCommentOutRequest } from "./ContentCommentOutRequest";
 
 export class ContentNewsRequest {

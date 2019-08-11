@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/potenstop/papio-common"
+    "url": "https://github.com/potenstop/web-spider"
   },
   "keywords": [
     "typescript",
@@ -31,9 +31,8 @@
     "cheerio": "^1.0.0-rc.3",
     "iconv-lite": "^0.5.0",
     "node-fetch": "^2.6.0",
-    "papio": "0.0.18",
-    "papio-apollo": "0.0.1",
-    "papio-common": "0.0.17",
+    "papio": "0.0.23",
+    "papio-apollo": "0.0.3",
     "puppeteer-core": "^1.18.1"
   },
   "engines": {
