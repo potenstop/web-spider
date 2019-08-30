@@ -16,6 +16,7 @@ import {NewsCommentResponse} from "../../dto/response/NewsCommentResponse";
 import {UserResponse} from "../../dto/response/UserResponse";
 import {LoggerFactory} from "type-slf4";
 import {ProjectConstant} from "../../common/constant/ProjectConstant";
+import {Component} from "papio/src/annotation/component/Component";
 
 const techDataList = "https://tech.163.com/special/00097UHL/tech_datalist";
 const logger = LoggerFactory.getLogger(ProjectConstant.PROJECT_NAME + ".dao.api.NetApi");
@@ -28,7 +29,7 @@ function cleanDataCallback(data: string) {
     return str;
 }
 
-@Configuration
+@Component
 export class NetApi {
     private static commentApi = "http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads";
 

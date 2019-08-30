@@ -2,37 +2,28 @@
  *
  * 功能描述:
  *
- * @className NewController
+ * @className NewsServiceImpl
  * @projectName web-spider
  * @author yanshaowen
- * @date 2019/7/11 9:38
+ * @date 2019/8/30 17:35
  */
-import {RestController, Standard} from "papio";
-import {
-    Autowired,
-    GetMapping,
-    JsonProtocol,
-    ProcessUtil,
-    RequestMapping,
-    ReturnGenericsProperty,
-    Valid,
-} from "papio";
+import {Autowired, JsonProtocol, ProcessUtil, Service} from "papio";
+import {NewsService} from "../NewsService";
+import {ContentCommentOutRequest} from "../../dto/request/ContentCommentOutRequest";
+import {NetNewResponse} from "../../dto/response/NetNewResponse";
+import {NewsContentResponse} from "../../dto/response/NewsContentResponse";
+import {NetApi} from "../../dao/api/NetApi";
+import {NetHtml} from "../../dao/html/NetHtml";
+import {ContentNews} from "../../dao/web/ContentNews";
 import {LoggerFactory} from "type-slf4";
-import {ProjectConstant} from "../common/constant/ProjectConstant";
-import {NetApi} from "../dao/api/NetApi";
-import {NetNewResponse} from "../dto/response/NetNewResponse";
-import {NetHtml} from "../dao/html/NetHtml";
-import {NewsContentResponse} from "../dto/response/NewsContentResponse";
-import {ContentNews} from "../dao/web/ContentNews";
-import {ContentNewsRequest} from "../dto/request/ContentNewsRequest";
-import {ContentCommentOutRequest} from "../dto/request/ContentCommentOutRequest";
-import {UserOutRequest} from "../dto/request/UserOutRequest";
+import {ProjectConstant} from "../../common/constant/ProjectConstant";
+import {ContentNewsRequest} from "../../dto/request/ContentNewsRequest";
+import {UserOutRequest} from "../../dto/request/UserOutRequest";
 
-const logger = LoggerFactory.getLogger(ProjectConstant.PROJECT_NAME + ".controller.NewController");
+const logger = LoggerFactory.getLogger(ProjectConstant.PROJECT_NAME + ".service.NewsServiceImpl");
 
-@RequestMapping("/news")
-@RestController
-export class NewController {
+@Service
+export class NewsServiceImpl implements NewsService {
     @Autowired
     private netApi: NetApi;
 
@@ -41,7 +32,6 @@ export class NewController {
 
     @Autowired
     private contentNews: ContentNews;
-
     public async getNewsContent(news: NetNewResponse): Promise<NewsContentResponse> {
         await ProcessUtil.sleep(1000);
         logger.info("开始请求新闻内容 url:[{}]", news.getReadUrl());
@@ -57,14 +47,9 @@ export class NewController {
         newsContentResponse.setLabels(labels);
         return newsContentResponse;
     }
-
-    @GetMapping("/tech")
-    @Valid
-    @ReturnGenericsProperty(new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Boolean))
-    public async getTech163(): Promise<Standard<boolean>> {
-        logger.info("getTech163-controller-start-request");
-        const standard = new Standard<boolean>();
+    public async getTech163(): Promise<NewsContentResponse[]> {
         // 获取网易科技新闻 前10页
+        const newsContentResponseList: NewsContentResponse[] = [];
         for (let page = 1; page <= 10; page++) {
             await ProcessUtil.sleep(3000);
             logger.info("开始请求新闻列表 第[{}]页", page);
@@ -90,16 +75,9 @@ export class NewController {
                     contentCommentOutRequest.setTime(value.getTime());
                     contentNewsRequest.getCommentList().push(contentCommentOutRequest);
                 });
-                logger.info("push-start request:[{}]", JsonProtocol.toJSONString(contentNewsRequest));
-                await this.contentNews.push(contentNewsRequest).catch((error) => {
-                    logger.error("push-error ", error);
-                });
-                logger.info("push-end response");
+                newsContentResponseList.push(newsContentResponse);
             }
         }
-        standard.setData(true);
-        logger.info("getTech163-controller-end-request");
-        return standard;
+        return newsContentResponseList;
     }
-
 }
