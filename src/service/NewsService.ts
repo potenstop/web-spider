@@ -10,13 +10,31 @@ import {NewsContentResponse} from "../dto/response/NewsContentResponse";
  * @author yanshaowen
  * @date 2019/8/30 17:26
  */
-export interface NewsService {
+export abstract class NewsService {
     /**
      * 方法功能描述:
      * @author yanshaowen
      * @date 2019/8/30 17:34
-     * @param
+     * @param page
      * @return
      */
-    getTech163(): Promise<NewsContentResponse[]>;
+    public abstract getTech163(page: number): Promise<NewsContentResponse[]>;
+
+    /**
+     * 方法功能描述:
+     * @author yanshaowen
+     * @date 2019/8/30 17:34
+     * @param list
+     * @return
+     */
+    public abstract pushList(list: NewsContentResponse[]): Promise<void>;
+
+    /**
+     * 方法功能描述:
+     * @author yanshaowen
+     * @date 2019/8/30 17:34
+     * @param page
+     * @return
+     */
+    public abstract getTech163AndPull(page: number): Promise<void>;
 }

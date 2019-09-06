@@ -12,7 +12,7 @@ import {Standard} from "papio";
 import {ContentNewsRequest} from "../../dto/request/ContentNewsRequest";
 
 @RestRemote({filepath: __dirname, name: "/content-news", timeout: 0})
-export class ContentNews {
+export class ContentNewsClient {
     @PostMapping({path: "/push"})
     @ReturnGenericsProperty(new Map<string, new () => object>().set("Standard", Standard).set("Standard.data", Boolean))
     public push(@RequestBody request: ContentNewsRequest): Promise<Standard<boolean>> {

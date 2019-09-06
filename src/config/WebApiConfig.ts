@@ -12,7 +12,7 @@ import {Value} from "papio-apollo/lib/annotation/Value";
 import {ApolloConfig} from "./ApolloConfig";
 
 @Configuration
-@MapperScan("@dao/web")
+@MapperScan("@dao/client")
 export class WebApiConfig {
     @Value("web.spider.api.url")
     private webSpiderApiUrl: string;

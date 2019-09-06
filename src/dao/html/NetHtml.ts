@@ -20,20 +20,20 @@ import * as puppeteer from "puppeteer-core";
 export class NetHtml {
 
     public async getNewsContent(url: string): Promise<NewsContentResponse> {
-        let data = await fetch(url, {
-            headers: HttpConstant.NET_GBK_HEADERS
-        }).then(res => res.buffer());
-        let dataStr = IconvLite.decode(data, "GBK");
+        const data = await fetch(url, {
+            headers: HttpConstant.NET_GBK_HEADERS,
+        }).then((res) => res.buffer());
+        const dataStr = IconvLite.decode(data, "GBK");
         const newsContentResponse = new NewsContentResponse();
         const root = cheerio.load(dataStr, { decodeEntities: false });
         const content = root("#epContentLeft");
-        const urls = url.split("/")
+        const urls = url.split("/");
         const id = urls[urls.length - 1].replace(/\.html$/, "");
         newsContentResponse.setId(id);
         // 获取title
         newsContentResponse.setTitle(content.children().first().text());
         // 获取时间
-        const timeContent = content.children(".post_time_source").contents().filter(function () {
+        const timeContent = content.children(".post_time_source").contents().filter(function() {
             return this.nodeType == 3;
         }).text().replace("来源:", "").trim();
         newsContentResponse.setTime(DateUtil.parse(timeContent, DateFormatEnum.DATETIME));

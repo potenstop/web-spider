@@ -8,7 +8,7 @@
  * @date 2019/7/11 9:52
  */
 import fetch from "node-fetch";
-import {Configuration, DateFormatEnum, DateUtil, JsonProtocol} from "papio";
+import {Configuration, DateFormatEnum, DateUtil, JsonProtocol, Component} from "papio";
 import {HttpConstant} from "../../common/constant/HttpConstant";
 import * as IconvLite from "iconv-lite";
 import {NetNewResponse} from "../../dto/response/NetNewResponse";
@@ -16,7 +16,6 @@ import {NewsCommentResponse} from "../../dto/response/NewsCommentResponse";
 import {UserResponse} from "../../dto/response/UserResponse";
 import {LoggerFactory} from "type-slf4";
 import {ProjectConstant} from "../../common/constant/ProjectConstant";
-import {Component} from "papio/src/annotation/component/Component";
 
 const techDataList = "https://tech.163.com/special/00097UHL/tech_datalist";
 const logger = LoggerFactory.getLogger(ProjectConstant.PROJECT_NAME + ".dao.api.NetApi");

@@ -5,6 +5,6 @@
       "enabled": true,
       "namespaces": "application"
     },
-    "meta": "http://local-meta.potens.top"
+    "meta": "http://dev-meta.potens.top"
   }
 }
